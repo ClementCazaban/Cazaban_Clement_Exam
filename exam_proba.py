@@ -153,8 +153,8 @@ plt.ylabel("Latitude")
 plt.title("Probablity density plot (Gaussian Kernel)",size=50, y=1.02)
 # %% QUESTION 5
 #Make a prediction : 
-start_i = 18.9644 - 0.0009 
-end_i = 18.9644 + 0.0009
+start_i = 18.9644 - 0.9043 
+end_i = 18.9644 + 0.9043
 start_j = 53.9555 - 0.8923
 end_j = 53.9555 + 0.8923
 step_i = 100
