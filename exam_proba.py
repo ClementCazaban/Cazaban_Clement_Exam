@@ -153,15 +153,15 @@ plt.ylabel("Latitude")
 plt.title("Probablity density plot (Gaussian Kernel)",size=50, y=1.02)
 # %% QUESTION 5
 #Make a prediction : 
-start_i = 18.9644 - 0.9043 
+start_i = 18.9644 - 0.9043
 end_i = 18.9644 + 0.9043
 start_j = 53.9555 - 0.8923
 end_j = 53.9555 + 0.8923
 step_i = 100
 step_j = 100
 step = step_i*step_j
-# for i in np.linspace(18,20,step_i):
-#     for j np.linspace(54,56,step_j):
+
+###### APROXIMATION OF THE AREA WITH A SQUARE ######
 proba_ligne = []
 for y in np.linspace(start_j,end_j,step_j):
     ligne_y = np.vstack((np.linspace(start_i,end_i,step_i),np.ones(step_i)*y)).T
@@ -170,8 +170,22 @@ for y in np.linspace(start_j,end_j,step_j):
     proba_ligne.append(proba)
 proba_ligne = np.asarray(proba_ligne)
 probability = np.sum(proba_ligne * ((end_j-start_j)/(step_j-1)))
-# pred = np.asarray([[19,55],[19.001,55.001]])
-# predictions = np.exp(estimator.score_samples(pred))
-print(f"The probability is : {probability}")
+pred = np.asarray([[19,55],[19.001,55.001]])
+predictions = np.exp(estimator.score_samples(pred))
+print(f"The probability (for a square) is : {probability}")
 
+###### APROXIMATION OF THE AREA WITH A CIRCLE ######
+proba_cercle = []
+points =[]
+dr = (0.9/step_i)
+proba_points =[]
+for r in np.linspace(0,0.9,step_j):
+    for teta in np.linspace(0,2*np.pi,step_i):
+        point = np.vstack((18.9644+0.9043*np.sin(teta),53.9555+0.8923*np.cos(teta))).T
+        proba_points.append(np.exp(estimator.score_samples(point)))
+    dteta = r*np.tan((np.pi/step_j))
+    proba_cercle.append(np.sum(np.asarray(proba_points) * dteta))
+proba_cercle = np.asarray(proba_ligne)
+probability = np.sum(proba_cercle * dr)
+print(f"The probability (for a circle) is : {probability}")
 
